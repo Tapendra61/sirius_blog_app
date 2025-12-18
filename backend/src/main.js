@@ -1,9 +1,11 @@
 import express from "express"
-import env from "dotenv"
+import { PORT } from "./config/env.js";
+import cookie_parser from "cookie-parser";
 
-env.config();
 const app = express();
-const PORT = process.env.PORT;
+
+app.use(express.json());
+app.use(cookie_parser());
 
 app.get("/", (req, res) => {
 	res.send("Express App!");
