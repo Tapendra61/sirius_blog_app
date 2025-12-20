@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js";
 import user_model from "../models/user.model.js";
 import jwt from "jsonwebtoken";
@@ -46,7 +47,40 @@ export const login = async (req, res, next) => {
 			.findOne({ email })
 			.select("+password");
 
-		
+		if (!existing_user) {
+			const error = new Error(`User with email: ${email} not found.`);
+			error.status = 404;
+			throw error;
+		}
+
+		const password_matches = await bcrypt.compare(
+			password,
+			existing_user.password,
+		);
+		if (!password_matches) {
+			const error = new Error("The password you entered is incorrect.");
+			error.status = 401;
+			throw error;
+		}
+
+		const token = jwt.sign({ user_id: existing_user._id }, JWT_SECRET, {
+			expiresIn: JWT_EXPIRES_IN,
+		});
+
+		res.cookie("token", token, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 7,
+		});
+
+		res.status(201).json({
+			message: "User logged in successfully.",
+			token,
+			user: {
+				id: existing_user._id,
+				name: existing_user.name,
+				email: existing_user.email,
+			},
+		});
 	} catch (error) {
 		next(error);
 	}
