@@ -2,15 +2,22 @@ import bcrypt from "bcryptjs";
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js";
 import user_model from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import validator from "validator";
 
 export const register = async (req, res, next) => {
 	const { name, email, password } = req.body;
 	try {
+		if(!validator.isEmail(email)) {
+			const error = new Error("Invalid email format!");
+			error.status = 400;
+			throw error;
+		}
+		
 		const existing_user = await user_model.findOne({ email });
 
 		if (existing_user) {
 			const error = new Error(
-				`A user with email: ${email} already exists.`,
+				`A user with email: ${email} already exists!`,
 			);
 			error.status = 409;
 			throw error;
@@ -77,6 +84,7 @@ export const login = async (req, res, next) => {
 
 		res.status(201).json({
 			message: "User logged in successfully.",
+			token,
 			user: {
 				id: existing_user._id,
 				name: existing_user.name,

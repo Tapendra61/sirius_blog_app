@@ -13,8 +13,6 @@ const app = express();
 app.use(express.json());
 app.use(cookie_parser());
 
-// Internal Middlewares
-app.use(error_middleware);
 
 app.get("/", (req, res) => {
 	res.send("Express App!");
@@ -22,7 +20,10 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/v1/auth", auth_router);
-app.use("api/v1/users", users_router);
+app.use("/api/v1/users", users_router);
+
+// Internal Middlewares
+app.use(error_middleware);
 
 const start_server = async () => {
 	await connect_to_db();
