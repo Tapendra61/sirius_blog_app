@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import user_model from "../models/user.model.js";
 import validator from "validator";
 
+// user routes
 export const me = async (req, res, next) => {
 	try {
 		const existing_user = await user_model.findById(req.user.user_id);
@@ -54,8 +55,8 @@ export const update_me = async (req, res, next) => {
 			error.status = 404;
 			throw error;
 		}
-		
-		if(!password) {
+
+		if (!password) {
 			const error = new Error("The password is required!");
 			error.status = 400;
 			throw error;
@@ -71,7 +72,8 @@ export const update_me = async (req, res, next) => {
 			throw error;
 		}
 
-		if (new_name !== undefined && !validator.isEmpty(new_name)) existing_user.name = new_name.trim();
+		if (new_name !== undefined && !validator.isEmpty(new_name))
+			existing_user.name = new_name.trim();
 		if (new_email !== undefined && !validator.isEmpty(new_email)) {
 			existing_user.email = new_email.trim();
 			existing_user.is_verified = false;
@@ -95,54 +97,67 @@ export const update_me = async (req, res, next) => {
 
 export const change_password = async (req, res, next) => {
 	const { new_password, confirmed_password, current_password } = req.body;
-	
+
 	try {
 		if (!new_password || !confirmed_password || !current_password) {
-			const error = new Error("All the fields are required to update the password!");
+			const error = new Error(
+				"All the fields are required to update the password!",
+			);
 			error.status = 400;
 			throw error;
 		}
-		
+
 		if (new_password !== confirmed_password) {
-			const error = new Error("The new password and confirmed password do not match!");
+			const error = new Error(
+				"The new password and confirmed password do not match!",
+			);
 			error.status = 400;
 			throw error;
 		}
-		
+
 		if (new_password.length < 8) {
 			const error = new Error("Password must be of length 8 at least!");
 			error.status = 400;
 			throw error;
 		}
-		
-		const existing_user = await user_model.findById(req.user.user_id).select("+password");
+
+		const existing_user = await user_model
+			.findById(req.user.user_id)
+			.select("+password");
 		if (!existing_user) {
 			const error = new Error("User not found!");
 			error.status = 404;
 			throw error;
 		}
-		
-		const password_matches = await bcrypt.compare(current_password, existing_user.password);
+
+		const password_matches = await bcrypt.compare(
+			current_password,
+			existing_user.password,
+		);
 		if (!password_matches) {
-			const error = new Error("The current password you entered is incorrect!");
+			const error = new Error(
+				"The current password you entered is incorrect!",
+			);
 			error.status = 401;
 			throw error;
 		}
-		
+
 		existing_user.password = new_password;
 		await existing_user.save();
-		
-		res.status(200).json({message: "Your password was saved successfully."});
-		
+
+		res.status(200).json({
+			message: "Your password was saved successfully.",
+		});
 	} catch (error) {
 		next(error);
 	}
 };
 
+// admin routes
 export const all_users = async (req, res, next) => {
 	try {
 		const users = await user_model.find();
-		res.status(200).json({message: "success", users});
+		res.status(200).json({ message: "success", users });
 	} catch (error) {
 		next(error);
 	}
