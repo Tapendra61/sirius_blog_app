@@ -93,9 +93,51 @@ export const update_me = async (req, res, next) => {
 	}
 };
 
-export const update_password = async(req, res, next) => {
+export const change_password = async (req, res, next) => {
+	const { new_password, confirmed_password, current_password } = req.body;
 	
-}
+	try {
+		if (!new_password || !confirmed_password || !current_password) {
+			const error = new Error("All the fields are required to update the password!");
+			error.status = 400;
+			throw error;
+		}
+		
+		if (new_password !== confirmed_password) {
+			const error = new Error("The new password and confirmed password do not match!");
+			error.status = 400;
+			throw error;
+		}
+		
+		if (new_password.length < 8) {
+			const error = new Error("Password must be of length 8 at least!");
+			error.status = 400;
+			throw error;
+		}
+		
+		const existing_user = await user_model.findById(req.user.user_id).select("+password");
+		if (!existing_user) {
+			const error = new Error("User not found!");
+			error.status = 404;
+			throw error;
+		}
+		
+		const password_matches = await bcrypt.compare(current_password, existing_user.password);
+		if (!password_matches) {
+			const error = new Error("The current password you entered is incorrect!");
+			error.status = 401;
+			throw error;
+		}
+		
+		existing_user.password = new_password;
+		await existing_user.save();
+		
+		res.status(200).json({message: "Your password was saved successfully."});
+		
+	} catch (error) {
+		next(error);
+	}
+};
 
 export const all_users = async (req, res, next) => {
 	try {
