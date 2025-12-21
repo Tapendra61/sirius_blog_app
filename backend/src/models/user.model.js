@@ -26,6 +26,10 @@ const user_schema = new mongoose.Schema(
 			enum: ["user", "admin"],
 			default: "user",
 		},
+		is_verified: {
+			type: Boolean,
+			default: false,
+		}
 	},
 	{ timestamps: true },
 );

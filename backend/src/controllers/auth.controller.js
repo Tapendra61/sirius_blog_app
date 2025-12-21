@@ -33,6 +33,7 @@ export const register = async (req, res, next) => {
 				id: new_user._id,
 				name: new_user.name,
 				email: new_user.email,
+				is_verified: new_user.is_verified,
 			},
 		});
 	} catch (error) {
@@ -40,7 +41,6 @@ export const register = async (req, res, next) => {
 	}
 };
 
-// TODO section
 export const login = async (req, res, next) => {
 	const { email, password } = req.body;
 	try {
@@ -81,6 +81,7 @@ export const login = async (req, res, next) => {
 				id: existing_user._id,
 				name: existing_user.name,
 				email: existing_user.email,
+				is_verified: existing_user.is_verified,
 			},
 		});
 	} catch (error) {
