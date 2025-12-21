@@ -142,7 +142,6 @@ export const change_password = async (req, res, next) => {
 export const all_users = async (req, res, next) => {
 	try {
 		const users = await user_model.find();
-		
 		res.status(200).json({message: "success", users});
 	} catch (error) {
 		next(error);
