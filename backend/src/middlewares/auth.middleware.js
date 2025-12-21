@@ -21,3 +21,5 @@ const authenticate = (req, res, next) => {
 		next(error);
 	}
 };
+
+export default authenticate;
