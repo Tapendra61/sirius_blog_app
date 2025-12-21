@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authenticate from "../middlewares/auth.middleware.js";
 import { all_users, me, update_me, change_password } from "../controllers/users.controller.js";
-import admin_only from "../controllers/admin.middleware.js";
+import admin_only from "../middlewares/admin.middleware.js";
 
 const users_router = Router();
 
