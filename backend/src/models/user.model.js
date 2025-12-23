@@ -29,7 +29,11 @@ const user_schema = new mongoose.Schema(
 		is_verified: {
 			type: Boolean,
 			default: false,
-		}
+		},
+		is_banned: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{ timestamps: true },
 );
