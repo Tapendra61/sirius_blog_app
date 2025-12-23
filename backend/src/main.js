@@ -13,9 +13,8 @@ const app = express();
 app.use(express.json());
 app.use(cookie_parser());
 
-
 app.get("/", (req, res) => {
-	res.send("Express App!");
+	res.send("Welcome to Sirius Blog App API!");
 });
 
 // Routes

@@ -162,3 +162,22 @@ export const all_users = async (req, res, next) => {
 		next(error);
 	}
 };
+
+export const user = async (req, res, next) => {
+	const { id } = req.params;
+
+	try {
+		const existing_user = await user_model.findById(id);
+		if (!existing_user) {
+			const error = new Error(
+				`User with provided id: ${id} was not found.`,
+			);
+			error.status = 404;
+			throw error;
+		}
+
+		res.status(200).json({ message: "User found", user: existing_user });
+	} catch (error) {
+		next(error);
+	}
+};
