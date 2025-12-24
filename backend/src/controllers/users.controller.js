@@ -202,3 +202,47 @@ export const delete_user = async (req, res, next) => {
 		next(error);
 	}
 };
+
+export const update_user = async (req, res, next) => {
+	const { new_name, new_role, is_banned } = req.body;
+	const { id } = req.params;
+	try {
+		const existing_user = await user_model.findById(id);
+
+		if (!existing_user) {
+			const error = new Error(
+				`The requested user with id: ${id} was not found!`,
+			);
+			error.status = 404;
+			throw error;
+		}
+
+		if (typeof new_name === "string" && new_name.trim() !== "") {
+			existing_user.name = new_name.trim();
+		}
+
+		if (new_role) {
+			const allowed_roles = ["admin", "user"];
+			if(!allowed_roles.includes(new_role)) {
+				const error = new Error("Invalid role value provided!");
+				error.status = 400;
+				throw error;
+			}
+		
+			existing_user.role = new_role;
+		}
+
+		if (typeof is_banned === "boolean") {
+			existing_user.is_banned = is_banned;
+		}
+		
+		await existing_user.save();
+
+		res.status(200).json({
+			message: "User updated successfully.",
+			user: existing_user,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
