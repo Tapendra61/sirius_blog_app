@@ -1,14 +1,22 @@
 import { useState } from "react";
+import { login } from "../../api/auth";
 
 const Login = () => {
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
+	const [err, setErr] = useState(null);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(formData);
+		try {
+			const data = await login(formData.email, formData.password);
+			console.log(data);
+			setErr(null);
+		}catch(error) {
+			setErr(error.message || "Login failed!");
+		}
 	};
 
 	const handleChange = (e) => {
@@ -38,6 +46,7 @@ const Login = () => {
 							placeholder="Enter Your Email"
 							value={formData.email}
 							onChange={handleChange}
+							required
 						/>
 						<input
 							name="password"
@@ -45,6 +54,7 @@ const Login = () => {
 							placeholder="Enter Your Password"
 							value={formData.password}
 							onChange={handleChange}
+							required
 						/>
 						<button type="submit">Log In</button>
 					</form>
