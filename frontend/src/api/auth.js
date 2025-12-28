@@ -12,7 +12,7 @@ export const login = async (email, password) => {
 		const response = await API.post("/login", { email, password });
 		return response.data;
 	} catch (error) {
-		console.error(`Login error: ${error.response?.data || error.message}`);
+		// console.error(`Login error: ${error.response?.data?.message}`);
 		throw error.response?.data || new Error("Login failed!");
 	}
 };

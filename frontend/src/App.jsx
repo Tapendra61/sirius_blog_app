@@ -1,5 +1,6 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Authentication from './pages/auth/Authentication.jsx';
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
 					<Route path='/authentication' element={ <Authentication />} />
 				</Routes>
 			</Router>
+			
+			<Toaster />
 		</div>
 	)
 }
