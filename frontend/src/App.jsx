@@ -1,6 +1,6 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Authentication from './pages/Authentication.jsx';
+import Authentication from './pages/auth/Authentication.jsx';
 
 function App() {
 
