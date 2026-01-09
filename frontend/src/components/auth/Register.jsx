@@ -1,6 +1,6 @@
 const Register = () => {
 	return (
-		<div className="register">
+		<div className="auth_element register">
 			RegisterCard
 		</div>
 	);

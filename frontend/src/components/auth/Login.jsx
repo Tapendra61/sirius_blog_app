@@ -17,7 +17,7 @@ const Login = () => {
 			setErr(null);
 		} catch (error) {
 			const errMessage = error.message || "Login failed!";
-			setErr(error.message );
+			setErr(error.message);
 			console.log(errMessage);
 			toast.error(errMessage);
 		}
@@ -33,9 +33,12 @@ const Login = () => {
 	};
 
 	return (
-		<div className="login">
+		<div className="auth_element login">
 			{/* Logo / Website name */}
-			<div className="company_section"></div>
+			<div className="company_section">
+				<img className="note_paper" src="paper.png" />
+				<h2>Byte Notes</h2>
+			</div>
 
 			{/* Login Form */}
 			<div className="login_section">
@@ -45,6 +48,7 @@ const Login = () => {
 				<div className="login_form">
 					<form onSubmit={handleSubmit}>
 						<input
+							className="login_email"
 							name="email"
 							type="email"
 							placeholder="Enter Your Email"
@@ -53,6 +57,7 @@ const Login = () => {
 							required
 						/>
 						<input
+							className="login_password"
 							name="password"
 							type="password"
 							placeholder="Enter Your Password"
@@ -60,8 +65,12 @@ const Login = () => {
 							onChange={handleChange}
 							required
 						/>
-						<button type="submit">Log In</button>
+						<button className="login_button" type="submit">Log In</button>
 					</form>
+				</div>
+				<div className="login_footer">
+					Don't have an account?{" "}
+					<span className="login_register_btn">Register</span>
 				</div>
 			</div>
 		</div>
