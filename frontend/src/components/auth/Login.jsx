@@ -3,7 +3,7 @@ import { login } from "../../api/auth";
 import toast from "react-hot-toast";
 import { MdEmail, MdLock } from "react-icons/md";
 
-const Login = () => {
+const Login = ({ switchToRegister }) => {
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
@@ -33,6 +33,10 @@ const Login = () => {
 		}));
 	};
 
+	const handleRegisterButtonPress = () => {
+		switchToRegister();
+	};
+
 	return (
 		<div className="auth_element login">
 			{/* Logo / Website name */}
@@ -49,7 +53,7 @@ const Login = () => {
 				<div className="login_form">
 					<form onSubmit={handleSubmit}>
 						<div className="input_wrapper">
-							<MdEmail className="input_icon"/>
+							<MdEmail className="input_icon" />
 							<input
 								className="login_email"
 								name="email"
@@ -61,7 +65,7 @@ const Login = () => {
 							/>
 						</div>
 						<div className="input_wrapper">
-							<MdLock className="input_icon"/>
+							<MdLock className="input_icon" />
 							<input
 								className="login_password"
 								name="password"
@@ -78,8 +82,19 @@ const Login = () => {
 					</form>
 				</div>
 				<div className="login_footer">
-					Don't have an account?{" "}
-					<span className="login_register_btn">Register</span>
+					<div className="footer_content">
+						<div className="footer_text">
+							<p>
+								Don't have an account?{" "}
+								<span
+									className="login_register_btn"
+									onClick={handleRegisterButtonPress}
+								>
+									Register
+								</span>
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

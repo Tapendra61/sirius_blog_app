@@ -110,6 +110,10 @@
 	color: rgb(6,70,53);
 }
 
+button:hover {
+	cursor: pointer;
+}
+
 .login_form button {
 	height: 2.5rem;
 	width: 20rem;
@@ -134,4 +138,29 @@ input:focus {
 
 .login_footer {
 	flex: 1.5;
+	display: flex;
+	justify-content: center;
+	padding: 0 2rem;
+}
+
+.footer_content {
+	width: 100%;
+	border-top: 1px solid rgb(150, 150, 150);
+	display: flex;
+	justify-content: center;
+}
+
+.footer_text {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+}
+
+.footer_text .login_register_btn {
+	color: rgb(247,160,80);
+}
+
+.login_register_btn:hover {
+	cursor: pointer;
 }
