@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { login } from "../../api/auth";
 import toast from "react-hot-toast";
+import { MdEmail, MdLock } from "react-icons/md";
 
 const Login = () => {
 	const [formData, setFormData] = useState({
@@ -47,25 +48,33 @@ const Login = () => {
 				</div>
 				<div className="login_form">
 					<form onSubmit={handleSubmit}>
-						<input
-							className="login_email"
-							name="email"
-							type="email"
-							placeholder="Enter Your Email"
-							value={formData.email}
-							onChange={handleChange}
-							required
-						/>
-						<input
-							className="login_password"
-							name="password"
-							type="password"
-							placeholder="Enter Your Password"
-							value={formData.password}
-							onChange={handleChange}
-							required
-						/>
-						<button className="login_button" type="submit">Log In</button>
+						<div className="input_wrapper">
+							<MdEmail className="input_icon"/>
+							<input
+								className="login_email"
+								name="email"
+								type="email"
+								placeholder="Enter Your Email"
+								value={formData.email}
+								onChange={handleChange}
+								required
+							/>
+						</div>
+						<div className="input_wrapper">
+							<MdLock className="input_icon"/>
+							<input
+								className="login_password"
+								name="password"
+								type="password"
+								placeholder="Enter Your Password"
+								value={formData.password}
+								onChange={handleChange}
+								required
+							/>
+						</div>
+						<button className="login_button" type="submit">
+							Log In
+						</button>
 					</form>
 				</div>
 				<div className="login_footer">
